@@ -249,3 +249,26 @@ class MemoryGameApp:
             turn_text = f"Ход: {self.current_player}"
             turn_color = self.colors['player1_turn_bg'] if self.current_player == "Player 1" else self.colors['player2_turn_bg']
             self.current_player_label.config(text=turn_text, fg=turn_color)
+
+
+    def update_player_labels_visibility(self, game_mode):
+
+        if game_mode == "Single Player":
+            self.current_player_label.pack_forget()
+            self.player2_score_label.pack_forget()
+        elif game_mode == "Two Players":
+            self.current_player_label.pack(pady=(10, 5))
+            self.player2_score_label.config(text="Игрок 2: 0")
+            self.player2_score_label.pack(pady=5)
+        elif game_mode == "Player vs. AI":
+            self.current_player_label.pack(pady=(10, 5))
+            self.player2_score_label.config(text="Компьютер: 0")
+            self.player2_score_label.pack(pady=5)
+            
+    def _update_scores(self):
+
+        self.player1_score_label.config(text=f"Игрок 1: {self.player_scores['Player 1']}")
+        if self.current_game_mode == "Two Players":
+            self.player2_score_label.config(text=f"Игрок 2: {self.player_scores['Player 2']}")
+        elif self.current_game_mode == "Player vs. AI":
+            self.player2_score_label.config(text=f"Компьютер: {self.player_scores['Computer']}")
