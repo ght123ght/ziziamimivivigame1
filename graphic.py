@@ -30,4 +30,30 @@ class MemoryGameApp:
         self.custom_font = ("Helvetica", 14, "bold")  
         self.card_font = ("Helvetica", 28, "bold")  
 
-        
+        self.difficulty_levels = {
+            "Easy": {"grid": (4, 4), "symbols": ["✧", "♡", "？", "❀", "⨳", "◍", "★", "▨"]}, 
+            "Medium": {"grid": (4, 5), "symbols": ["✧", "♡", "？", "❀", "⨳", "◍", "★", "▨", "✿", "⬦"]}, 
+            "Hard": {"grid": (5, 6), "symbols": ["✧", "♡", "？", "❀", "⨳", "◍", "★", "▨", "✿", "⬦", "ᶻz", "⊹", "✹", "◉", "✄"]}
+       
+        }
+        self.game_modes = ["Single Player", "Two Players", "Player vs. AI"]
+
+        self.current_difficulty = "Easy"
+        self.current_game_mode = "Single Player"
+
+
+        self.style = ttk.Style()
+        self._configure_styles()
+
+
+        self.sidebar = tk.Frame(master, width=250, bg=self.colors['sidebar_bg'])
+        self.sidebar.pack(side="left", fill="y")
+        self.sidebar.pack_propagate(False)  # Предотвращает изменение размера сайдбара
+
+        self.game_frame = tk.Frame(master, bg=self.colors['bg'])
+        self.game_frame.pack(side="right", fill="both", expand=True)
+
+        self.cards_frame = tk.Frame(self.game_frame, bg=self.colors['bg'])
+        self.cards_frame.pack(expand=True)  # Карты будут в этой рамке
+
+
