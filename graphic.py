@@ -224,3 +224,28 @@ class MemoryGameApp:
                     "is_matched": False
                 })
                 
+
+    def _flip_card(self, card_idx, reveal=True):
+
+        card_info = self.cards[card_idx]
+        canvas = card_info["canvas"]
+
+        if reveal:
+            canvas.itemconfig(card_info["text_id"], state=tk.NORMAL, fill=self.colors['card_fg'])
+          
+            canvas.itemconfig("border", fill=self.colors['bg']) 
+        else:
+            if not card_info["is_matched"]:
+                canvas.itemconfig(card_info["text_id"], state=tk.HIDDEN, fill=self.colors['card_hidden_text'])
+                canvas.itemconfig("border", fill=self.colors['card_bg'])
+                card_info["is_revealed"] = False
+
+    def _update_current_player_display(self):
+
+        if self.current_game_mode == "Single Player":
+            self.current_player_label.pack_forget()
+        else:
+            self.current_player_label.pack(pady=(10, 5))
+            turn_text = f"Ход: {self.current_player}"
+            turn_color = self.colors['player1_turn_bg'] if self.current_player == "Player 1" else self.colors['player2_turn_bg']
+            self.current_player_label.config(text=turn_text, fg=turn_color)
