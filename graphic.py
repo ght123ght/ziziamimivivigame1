@@ -57,3 +57,20 @@ class MemoryGameApp:
         self.cards_frame.pack(expand=True)  # Карты будут в этой рамке
 
 
+        self.cards = []
+        self.flipped_cards = []
+        self.match_count = 0
+        self.total_pairs = 0
+        self.moves = 0
+        self.game_over = False
+        self.can_click = True
+        self.game_timer_id = None
+        self.start_time = None
+
+
+        self.player_scores = {"Player 1": 0, "Player 2": 0, "Computer": 0}
+        self.current_player = "Player 1"
+        self.ai_memory = {}
+
+        self.create_sidebar()
+        self.start_new_game()
