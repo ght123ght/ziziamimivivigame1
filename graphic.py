@@ -178,3 +178,49 @@ class MemoryGameApp:
         self._update_player_labels_visibility()
 
 
+    def create_game_grid(self):
+
+        for widget in self.cards_frame.winfo_children():
+            widget.destroy()
+
+        self.cards = []
+
+        rows, cols = self.difficulty_levels[self.current_difficulty]["grid"]
+        symbols = self.difficulty_levels[self.current_difficulty]["symbols"] * 2
+        random.shuffle(symbols)
+
+        self.total_pairs = len(symbols) // 2
+
+        for i in range(rows):
+            for j in range(cols):
+
+                self.cards_frame.grid_rowconfigure(i, weight=1)
+                self.cards_frame.grid_columnconfigure(j, weight=1)
+
+                card_idx = i * cols + j
+
+                card_canvas = tk.Canvas(self.cards_frame, width=80, height=100,
+                                        bg=self.colors['card_bg'], highlightthickness=0)
+                card_canvas.grid(row=i, column=j, padx=5, pady=5, sticky="nsew") # Added sticky
+                card_canvas.bind("<Button-1>", lambda e, idx=card_idx: self.on_card_click(idx))
+
+
+                card_canvas.create_rectangle(5, 5, 75, 95, fill=self.colors['card_bg'],
+                                             outline=self.colors['card_fg'], width=2, tags="border")
+
+
+                symbol_text_id = card_canvas.create_text(40, 50, text=symbols[card_idx],
+                                                         font=self.card_font, 
+                                                         fill=self.colors['card_hidden_text'], 
+                                                         state=tk.HIDDEN,
+                                                         tags="symbol")
+
+
+                self.cards.append({
+                    "canvas": card_canvas,
+                    "symbol": symbols[card_idx],
+                    "text_id": symbol_text_id,
+                    "is_revealed": False,
+                    "is_matched": False
+                })
+                
