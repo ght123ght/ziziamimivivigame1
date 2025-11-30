@@ -74,3 +74,28 @@ class MemoryGameApp:
 
         self.create_sidebar()
         self.start_new_game()
+
+
+    def _configure_styles(self):
+
+        self.style.theme_create("modern", parent="alt", settings={
+            "TCombobox": {
+                "configure": {
+                    "selectbackground": self.colors['combobox_bg'],
+                    "fieldbackground": self.colors['combobox_bg'],
+                    "background": self.colors['button_bg'],
+                    "foreground": self.colors['combobox_fg'],
+                    "font": self.custom_font,
+                    "bordercolor": self.colors['button_bg'],
+                    "arrowcolor": self.colors['button_fg']
+                },
+                "map": {
+                    "background": [("active", self.colors['button_bg'])],
+                    "fieldbackground": [("active", self.colors['combobox_bg'])]
+                }
+            }
+        })
+        self.style.theme_use("modern")
+        self.master.option_add('*TCombobox*Listbox.font', self.custom_font)
+        self.master.option_add('*TCombobox*Listbox.selectBackground', self.colors['card_fg'])
+        self.master.option_add('*TCombobox*Listbox.selectForeground', self.colors['text'])
