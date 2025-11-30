@@ -99,3 +99,80 @@ class MemoryGameApp:
         self.master.option_add('*TCombobox*Listbox.font', self.custom_font)
         self.master.option_add('*TCombobox*Listbox.selectBackground', self.colors['card_fg'])
         self.master.option_add('*TCombobox*Listbox.selectForeground', self.colors['text'])
+
+
+    def create_sidebar(self):
+       
+        title_label = tk.Label(self.sidebar, text="Memory Game",
+                               font=("Helvetica", 24, "bold"),
+                               bg=self.colors['sidebar_bg'], fg=self.colors['text'])
+        title_label.pack(pady=(30, 10))
+
+        subtitle_label = tk.Label(self.sidebar, text="Проверим вашу память!",
+                                  font=("Helvetica", 16, "italic"),
+                                  bg=self.colors['sidebar_bg'], fg=self.colors['text'])
+        subtitle_label.pack(pady=(0, 30))
+
+       
+        self.game_mode_label = tk.Label(self.sidebar, text="Game Mode:",
+                                        font=self.custom_font,
+                                        bg=self.colors['sidebar_bg'], fg=self.colors['text'])
+        self.game_mode_label.pack(pady=(0, 5))
+
+        self.game_mode_combobox = ttk.Combobox(self.sidebar, values=self.game_modes,
+                                               state="readonly", font=self.custom_font, width=15)
+        self.game_mode_combobox.set(self.current_game_mode)
+        self.game_mode_combobox.pack(pady=(0, 10))
+        self.game_mode_combobox.bind("<<ComboboxSelected>>", self._on_game_mode_change)
+
+        
+        self.difficulty_label = tk.Label(self.sidebar, text="Difficulty:",
+                                         font=self.custom_font,
+                                         bg=self.colors['sidebar_bg'], fg=self.colors['text'])
+        self.difficulty_label.pack(pady=(0, 5))
+
+        self.difficulty_combobox = ttk.Combobox(self.sidebar, values=list(self.difficulty_levels.keys()),
+                                                state="readonly", font=self.custom_font, width=15)
+        self.difficulty_combobox.set(self.current_difficulty)
+        self.difficulty_combobox.pack(pady=(0, 20))
+        self.difficulty_combobox.bind("<<ComboboxSelected>>", self._on_difficulty_change)
+
+
+       
+        self.current_player_label = tk.Label(self.sidebar, text="Ход: Игрок 1",
+                                             font=("Helvetica", 16, "bold"),
+                                             bg=self.colors['sidebar_bg'], fg=self.colors['player1_turn_bg'])
+        self.current_player_label.pack(pady=(10, 5))
+
+        self.player1_score_label = tk.Label(self.sidebar, text="Игрок 1: 0",
+                                            font=self.custom_font,
+                                            bg=self.colors['sidebar_bg'], fg=self.colors['text'])
+        self.player1_score_label.pack(pady=5)
+
+        self.player2_score_label = tk.Label(self.sidebar, text="Игрок 2: 0",
+                                            font=self.custom_font,
+                                            bg=self.colors['sidebar_bg'], fg=self.colors['text'])
+        self.player2_score_label.pack(pady=5)
+
+        
+        self.moves_label = tk.Label(self.sidebar, text="Попытки: 0",
+                                    font=self.custom_font,
+                                    bg=self.colors['sidebar_bg'], fg=self.colors['text'])
+        self.moves_label.pack(pady=10)
+
+        self.time_label = tk.Label(self.sidebar, text="Время: 0:00",
+                                   font=self.custom_font,
+                                   bg=self.colors['sidebar_bg'], fg=self.colors['text'])
+        self.time_label.pack(pady=10)
+
+        
+        self.new_game_button = tk.Button(self.sidebar, text="Новая Игра",
+                                         font=self.custom_font,
+                                         bg=self.colors['button_bg'], fg=self.colors['button_fg'],
+                                         relief=tk.FLAT,
+                                         command=self.start_new_game)
+        self.new_game_button.pack(pady=30)
+        self.new_game_button.bind("<Enter>", lambda e: e.widget.config(bg="#d816b8"))
+        self.new_game_button.bind("<Leave>", lambda e: e.widget.config(bg=self.colors['button_bg']))
+
+        self._update_player_labels_visibility()
