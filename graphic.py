@@ -176,3 +176,26 @@ class MemoryGameApp:
         self.new_game_button.bind("<Leave>", lambda e: e.widget.config(bg=self.colors['button_bg']))
 
         self._update_player_labels_visibility()
+
+
+    def _on_game_mode_change(self, event):
+        """Called when game mode combobox selection changes."""
+        self.current_game_mode = self.game_mode_combobox.get()
+        self._update_player_labels_visibility()
+        self.start_new_game()
+
+    def _on_difficulty_change(self, event):
+        """Called when difficulty combobox selection changes."""
+        self.current_difficulty = self.difficulty_combobox.get()
+        self.start_new_game()
+
+    def _update_player_labels_visibility(self):
+        """Adjusts visibility of player 2 / computer score labels."""
+        if self.current_game_mode == "Single Player":
+            self.player2_score_label.pack_forget()
+        elif self.current_game_mode == "Two Players":
+            self.player2_score_label.config(text="Игрок 2: 0")
+            self.player2_score_label.pack(pady=5)
+        elif self.current_game_mode == "Player vs. AI":
+            self.player2_score_label.config(text="Компьютер: 0")
+            self.player2_score_label.pack(pady=5)
